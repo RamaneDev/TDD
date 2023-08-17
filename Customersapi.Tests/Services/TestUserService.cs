@@ -2,6 +2,7 @@
 using Customers.API.Services;
 using Customersapi.Tests.Fixtures;
 using Customersapi.Tests.Helpers;
+using FluentAssertions;
 using Moq;
 using Moq.Protected;
 using System;
@@ -37,6 +38,23 @@ namespace Customersapi.Tests.Services
                 Times.Exactly(1),
                 ItExpr.Is<HttpRequestMessage>(rq => rq.Method == HttpMethod.Get),
                 ItExpr.IsAny<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task GetAllUsers_WhenCalled_ReturnListOfUsers()
+        {
+            //Arrange
+            var expectedResponse = UsersFixture.GetTestUsers();
+            var handlerMock = MockHttpMessageHandler<User>.SetupBasicGetResourceList(expectedResponse);
+            var httpClient = new HttpClient(handlerMock.Object);
+            var sut = new UserService(httpClient);
+
+            //Act
+            var users = await sut.GetAllUsers();
+
+
+            //Assert            
+            users.Should().BeOfType<List<User>>();
         }
     }
 }
