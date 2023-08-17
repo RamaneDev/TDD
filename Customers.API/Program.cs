@@ -14,6 +14,7 @@ namespace Customers.API
             // Add services to the container.
 
             builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddHttpClient<IUserService, UserService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
