@@ -14,7 +14,7 @@ namespace Customersapi.Tests.Controllers
     public class TestUsersController
     {
         [Fact]
-        public async Task Get_OnSuccess_ReurnsStatusCode200()
+        public async Task Get_OnSuccess_ReurnsStatusCode200()     //success
         {            
             //Arrange
             var mockUserService = new Mock<IUserService>();
@@ -34,7 +34,7 @@ namespace Customersapi.Tests.Controllers
         }
 
         [Fact]
-        public async Task Get_OnSuccess_InvokeUserServiceExactlyOnce()
+        public async Task Get_OnSuccess_InvokeUserServiceExactlyOnce()   // success
         {
             //Arrange
             var mockUserService = new Mock<IUserService>();
@@ -57,7 +57,7 @@ namespace Customersapi.Tests.Controllers
         }
 
         [Fact]
-        public async Task Get_OnSuccess_ReturnsListOfUsers()
+        public async Task Get_OnSuccess_ReturnsListOfUsers()   // success
         {
             //Arrange
             var mockUserService = new Mock<IUserService>();
@@ -78,6 +78,30 @@ namespace Customersapi.Tests.Controllers
            res.Should().BeOfType<OkObjectResult>();
             var objectResult = (OkObjectResult)res;
            objectResult.Value.Should().BeOfType<List<User>>();
+
+        }
+
+        [Fact]
+        public async Task Get_OnNoUsersFound_Returns404()   // fail
+        {
+            //Arrange
+            var mockUserService = new Mock<IUserService>();
+
+            mockUserService
+                .Setup(service => service.GetAllUsers())
+                .ReturnsAsync(new List<User>());
+
+
+            var sut = new UsersController(mockUserService.Object);
+
+            //Act
+
+            var res = await sut.Get();
+
+
+            //Assert
+            res.Should().BeOfType<NotFoundResult>();
+         
 
         }
     }
