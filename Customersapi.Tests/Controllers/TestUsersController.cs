@@ -55,5 +55,30 @@ namespace Customersapi.Tests.Controllers
             mockUserService.Verify(service => service.GetAllUsers(), Times.Once);
 
         }
+
+        [Fact]
+        public async Task Get_OnSuccess_ReturnsListOfUsers()
+        {
+            //Arrange
+            var mockUserService = new Mock<IUserService>();
+
+            mockUserService
+                .Setup(service => service.GetAllUsers())
+                .ReturnsAsync(new List<User>());
+
+
+            var sut = new UsersController(mockUserService.Object);
+
+            //Act
+
+            var res = await sut.Get();
+
+
+            //Assert
+           res.Should().BeOfType<OkObjectResult>();
+            var objectResult = (OkObjectResult)res;
+           objectResult.Value.Should().BeOfType<List<User>>();
+
+        }
     }
 }
