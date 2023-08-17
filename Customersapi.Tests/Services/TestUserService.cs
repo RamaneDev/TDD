@@ -61,8 +61,25 @@ namespace Customersapi.Tests.Services
         public async Task GetAllUsers_WhenHits404_ReturnsEmptyListOfUsers()
         {
             //Arrange
-            var expectedResponse = UsersFixture.GetTestUsers();
+          
             var handlerMock = MockHttpMessageHandler<User>.SetupReturn404();
+            var httpClient = new HttpClient(handlerMock.Object);
+            var sut = new UserService(httpClient);
+
+            //Act
+            var users = await sut.GetAllUsers();
+
+
+            //Assert            
+            users.Count.Should().Be(0);
+        }
+
+        [Fact]
+        public async Task GetAllUsers_WhenCalled_ReturnsListOfUsersOfExpectedSize()
+        {
+            //Arrange
+            var expectedResponse = UsersFixture.GetTestUsers();
+            var handlerMock = MockHttpMessageHandler<User>.SetupBasicGetResourceList(expectedResponse); ;
             var httpClient = new HttpClient(handlerMock.Object);
             var sut = new UserService(httpClient);
 
