@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Customers.API.Services;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Customers.API.Controllers
@@ -7,15 +8,17 @@ namespace Customers.API.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        public UsersController()
-        {
-            
-        }
+        private readonly IUserService _userService;
 
+        public UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
         [HttpGet(Name = "GetUsers")]
         public async Task<IActionResult> Get()
         {
+            await _userService.GetAllUsers();
             return Ok("all good");
         }
     }
