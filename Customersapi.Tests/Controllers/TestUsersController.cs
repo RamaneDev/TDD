@@ -14,14 +14,27 @@ namespace Customersapi.Tests.Controllers
     public class TestUsersController
     {
         [Fact]
-        public async Task Get_OnSuccess_ReurnsStatusCode200()     // fail
+        public async Task Get_OnSuccess_ReurnsStatusCode200()     // success
         {            
             //Arrange
             var mockUserService = new Mock<IUserService>();
 
             mockUserService
                 .Setup(service => service.GetAllUsers())
-                .ReturnsAsync(new List<User>());
+                .ReturnsAsync(new List<User>()
+                {
+                    new()
+                    {
+                        Id = 1,
+                        Name = "Diane",
+                        Address = new Address
+                        {
+                            Street = "123 Main St",
+                            City = "Madrid",
+                            ZipCode = "56530"
+                        }
+                    }
+                });
 
             var sut = new UsersController(mockUserService.Object);
 
@@ -89,7 +102,7 @@ namespace Customersapi.Tests.Controllers
 
             //Assert
            res.Should().BeOfType<OkObjectResult>();
-            var objectResult = (OkObjectResult)res;
+           var objectResult = (OkObjectResult)res;
            objectResult.Value.Should().BeOfType<List<User>>();
 
         }
@@ -114,8 +127,8 @@ namespace Customersapi.Tests.Controllers
 
             //Assert
             res.Should().BeOfType<NotFoundResult>();
-         
-
+            var objectResult = (NotFoundResult)res;
+            objectResult.StatusCode.Should().Be(404);
         }
     }
 }
