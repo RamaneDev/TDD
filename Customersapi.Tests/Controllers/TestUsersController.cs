@@ -14,7 +14,7 @@ namespace Customersapi.Tests.Controllers
     public class TestUsersController
     {
         [Fact]
-        public async Task Get_OnSuccess_ReurnsStatusCode200()     //success
+        public async Task Get_OnSuccess_ReurnsStatusCode200()     // fail
         {            
             //Arrange
             var mockUserService = new Mock<IUserService>();
@@ -57,7 +57,7 @@ namespace Customersapi.Tests.Controllers
         }
 
         [Fact]
-        public async Task Get_OnSuccess_ReturnsListOfUsers()   // success
+        public async Task Get_OnSuccess_ReturnsListOfUsers()   // fail
         {
             //Arrange
             var mockUserService = new Mock<IUserService>();
@@ -82,7 +82,7 @@ namespace Customersapi.Tests.Controllers
         }
 
         [Fact]
-        public async Task Get_OnNoUsersFound_Returns404()   // fail
+        public async Task Get_OnNoUsersFound_Returns404()   // success
         {
             //Arrange
             var mockUserService = new Mock<IUserService>();

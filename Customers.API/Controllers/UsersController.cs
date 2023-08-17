@@ -1,5 +1,6 @@
 ﻿using Customers.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Customers.API.Controllers
@@ -19,7 +20,15 @@ namespace Customers.API.Controllers
         public async Task<IActionResult> Get()
         {
             var users =  await _userService.GetAllUsers();
-            return Ok(users);
+            
+            if(users.Any())
+            {
+                return Ok(users);
+            } else
+            {
+                return NotFound();
+            }
+           
         }
     }
 }
