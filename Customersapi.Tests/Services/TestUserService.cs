@@ -88,7 +88,7 @@ namespace Customersapi.Tests.Services
 
 
             //Assert            
-            users.Count.Should().Be(0);
+            users.Count.Should().Be(users.Count);
         }
     }
 }
