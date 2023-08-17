@@ -14,9 +14,11 @@ namespace Customers.API.Services
             _httpClient = httpClient;
         }
 
-        public Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
-            throw new System.NotImplementedException();
+            var listOfUsers = await _httpClient.GetAsync("http://exemple.com");
+
+            return new List<User> { };
         }
     }
 }
