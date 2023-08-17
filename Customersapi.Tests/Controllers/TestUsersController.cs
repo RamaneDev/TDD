@@ -57,14 +57,27 @@ namespace Customersapi.Tests.Controllers
         }
 
         [Fact]
-        public async Task Get_OnSuccess_ReturnsListOfUsers()   // fail
+        public async Task Get_OnSuccess_ReturnsListOfUsers()   // success
         {
             //Arrange
             var mockUserService = new Mock<IUserService>();
 
             mockUserService
                 .Setup(service => service.GetAllUsers())
-                .ReturnsAsync(new List<User>());
+                .ReturnsAsync(new List<User>()
+                {
+                    new()
+                    {
+                        Id = 1,
+                        Name = "Diane",
+                        Address = new Address
+                        {
+                            Street = "123 Main St",
+                            City = "Madrid",
+                            ZipCode = "56530"
+                        }
+                    }
+                });
 
 
             var sut = new UsersController(mockUserService.Object);
