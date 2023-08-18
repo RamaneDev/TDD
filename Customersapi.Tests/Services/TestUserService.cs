@@ -129,7 +129,7 @@ namespace Customersapi.Tests.Services
             //Arrange
             var expectedResponse = UsersFixture.GetTestUsers();
             var endpoint = "https://example.com/users";
-            var handlerMock = MockHttpMessageHandler<User>.SetupBasicGetResourceList(expectedResponse, endpoint); ;
+            var handlerMock = MockHttpMessageHandler<User>.SetupBasicGetResourceList(expectedResponse);
             var httpClient = new HttpClient(handlerMock.Object);
 
             var config = Options.Create(new UsersApiOptions
@@ -142,13 +142,19 @@ namespace Customersapi.Tests.Services
             var result  = await sut.GetAllUsers();
 
 
+            var Uri = new Uri(endpoint);
+
+
             //Assert
-             handlerMock.Protected()
+                handlerMock.Protected()
                 .Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(rq => rq.Method == HttpMethod.Get && rq.RequestUri.ToString() == endpoint),
+                ItExpr.Is<HttpRequestMessage>(rq => rq.Method == HttpMethod.Get && rq.RequestUri.Equals(Uri)),
                 ItExpr.IsAny<CancellationToken>());
+
+
+           
 
         }
     }

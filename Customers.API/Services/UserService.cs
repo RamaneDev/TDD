@@ -21,7 +21,7 @@ namespace Customers.API.Services
 
         public async Task<List<User>> GetAllUsers()
         {
-            var listOfUsers = await _httpClient.GetAsync("http://exemple.com");
+            var listOfUsers = await _httpClient.GetAsync(_apiConfig.Endpoint);
 
             if(listOfUsers.StatusCode == System.Net.HttpStatusCode.NotFound)
             {

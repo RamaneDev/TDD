@@ -37,34 +37,8 @@ namespace Customersapi.Tests.Helpers
             return handlerMock;
         }
 
-        internal static Mock<HttpMessageHandler> SetupBasicGetResourceList(List<User> expectedResponse, string endpoint)
-        {
-            var mockResponse = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(expectedResponse))
-            };
-
-            mockResponse.Content.Headers.ContentType =
-                         new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-
-            var handlerMock = new Mock<HttpMessageHandler>();
-
-            var httpRequestMessage = new HttpRequestMessage 
-            { 
-                RequestUri = new Uri(endpoint),
-                Method = HttpMethod.Get
-            };
-
-            handlerMock.Protected()
-                       .Setup<Task<HttpResponseMessage>>(
-                            "SendAsync",
-                             httpRequestMessage,
-                             ItExpr.IsAny<CancellationToken>()
-                       ).ReturnsAsync(mockResponse);
-
-
-            return handlerMock;
-        }
+        // we dont need this function! no criteria about HttpRequestMessage should be her
+        // in the mock, outheroise we put this criteria in the test method instead
 
         internal static Mock<HttpMessageHandler> SetupReturn404()
         {
