@@ -1,4 +1,6 @@
-﻿using Customers.API.Models;
+﻿using Customers.API.Config;
+using Customers.API.Models;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -9,10 +11,12 @@ namespace Customers.API.Services
     public class UserService : IUserService
     {
         private readonly HttpClient _httpClient;
+        private readonly UsersApiOptions _apiConfig;
 
-        public UserService(HttpClient httpClient)
+        public UserService(HttpClient httpClient, IOptions<UsersApiOptions> apiConfig)
         {
             _httpClient = httpClient;
+            _apiConfig =  apiConfig.Value;
         }
 
         public async Task<List<User>> GetAllUsers()

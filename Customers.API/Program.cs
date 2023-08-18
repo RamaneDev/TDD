@@ -1,3 +1,4 @@
+using Customers.API.Config;
 using Customers.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,8 +16,9 @@ namespace Customers.API
 
             builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddHttpClient<IUserService, UserService>();
+            builder.Services.Configure<UsersApiOptions>(builder.Configuration.GetSection("UsersApiOptions"));
 
-            builder.Services.AddControllers();
+           builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
